@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 '''
 Author: R0X4R (Eshan Singh)
-Version: 0.1.0
+Version: 0.2.0
 '''
 
 import aiohttp
 import asyncio
-from urllib.parse import urlparse, urlencode, parse_qs
 import sys
+from urllib.parse import urlparse, urlencode, parse_qs
 
 # Asynchronous function to check if any query parameters are reflected in the response body
 async def check_reflected(session, url):
@@ -84,7 +84,7 @@ async def process_url(session, url, semaphore):
 
 # Asynchronous function to process a list of URLs
 async def process_urls(urls):
-    semaphore = asyncio.Semaphore(10)
+    semaphore = asyncio.Semaphore(50)  # Increased the semaphore limit for more concurrency
     # Create an aiohttp session with a custom User-Agent header
     async with aiohttp.ClientSession(headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.100 Safari/537.36"}) as session:
         # Create a list of tasks to process each URL
@@ -92,8 +92,24 @@ async def process_urls(urls):
         # Run the tasks concurrently
         await asyncio.gather(*tasks)
 
-if __name__ == "__main__":
-    # Read URLs from standard input
-    urls = [line.strip() for line in sys.stdin.readlines()]
+# Function to read URLs from stdin
+def read_urls_from_stdin():
+    # Read lines from stdin and strip extra spaces
+    urls = [line.strip() for line in sys.stdin.readlines() if line.strip()]
+    return urls
+
+# Main function that reads from stdin and processes the URLs
+def main():
+    # Read URLs from stdin
+    urls = read_urls_from_stdin()
+
+    # Check if there are any URLs to process
+    if not urls:
+        print("No URLs to process. Please provide URLs via stdin or pipe them into varoon.")
+        return
+
     # Run the process_urls function with the list of URLs
     asyncio.run(process_urls(urls))
+
+if __name__ == "__main__":
+    main()
