@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''
 Author: R0X4R (Eshan Singh)
-Version: 0.2.0
+Version: 0.3.0
 '''
 
 import aiohttp
@@ -100,16 +100,20 @@ def read_urls_from_stdin():
 
 # Main function that reads from stdin and processes the URLs
 def main():
-    # Read URLs from stdin
-    urls = read_urls_from_stdin()
+    try:
+        # Read URLs from stdin
+        urls = read_urls_from_stdin()
 
-    # Check if there are any URLs to process
-    if not urls:
-        print("No URLs to process. Please provide URLs via stdin or pipe them into varoon.")
-        return
+        # Check if there are any URLs to process
+        if not urls:
+            print("No URLs to process. Please provide URLs via stdin or pipe them into varoon.")
+            return
 
-    # Run the process_urls function with the list of URLs
-    asyncio.run(process_urls(urls))
+        # Run the process_urls function with the list of URLs
+        asyncio.run(process_urls(urls))
+    except KeyboardInterrupt:
+        # print("\nProcess interrupted. Exiting...")
+        exit()
 
 if __name__ == "__main__":
     main()

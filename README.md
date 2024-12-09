@@ -11,13 +11,13 @@ pipx install varoon
 ### Usage
 
 ```bash
-echo "www.target.website" | waybackurls | parshu -x | bhedak "hello" | uro | varoon
+$ echo "www.target.website" | waybackurls | parshu -x | bhedak "hello" | uro | varoon
 ```
 
 ### Sample Output
 
 ```css
-echo "www.target.website" | waybackurls | parshu -x | bhedak "hello" | uro | varoon
+$ echo "www.target.website" | waybackurls | parshu -x | bhedak "hello" | uro | varoon
 
 URL: http://www.target.website/Search.asp?q=hello Param: tfSearch Unfiltered: [" < > $ | ( ) ` : ; { }]
 URL: http://www.target.website/id?account=hello Param: account Unfiltered: [" < > $ | ( ) ` : ; { }]
